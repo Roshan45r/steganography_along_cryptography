@@ -1,16 +1,12 @@
 from PIL import Image
 
+from cryptography.fernet import Fernet
+
 def decrypt_text(encrypted_bytes, password):
-    # Convert the encrypted bytes and password to bytes
-    password_bytes = password.encode()
+    key = password
 
-    # XOR each byte of the encrypted bytes with the corresponding byte of the password
-    decrypted_bytes = bytes(encrypted_byte ^ password_byte for encrypted_byte, password_byte in zip(encrypted_bytes, password_bytes))
-
-    # Convert the decrypted bytes to text
-    decrypted_text = decrypted_bytes.decode()
-
-    return decrypted_text
+    f = Fernet(key)
+    return f.decrypt(encrypted_bytes).decode()
 
 def extract_text(image_path, password):
     # Open the image
@@ -53,7 +49,7 @@ def extract_text(image_path, password):
     return decrypted_text
 
 output_image_path = 'D:\_CNS\output.png'
-password = 'secret_password'
+password = 'aubTy1HQbRRurbytmh_NJE2DV3QaNSh8A-ju4p3ZJCY='
 
 decrypted_text = extract_text(output_image_path, password)
 print('Decrypted Text:', decrypted_text)
