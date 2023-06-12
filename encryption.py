@@ -1,15 +1,13 @@
 from PIL import Image
 
+from cryptography.fernet import Fernet
+
 def encrypt_text(text, password):
-    # Convert the text and password to bytes
-    text_bytes = text.encode()
-    password_bytes = password.encode()
-
-    # XOR each byte of the text with the corresponding byte of the password
-    encrypted_bytes = bytes(text_byte ^ password_byte for text_byte, password_byte in zip(text_bytes, password_bytes))
-
-    return encrypted_bytes
-
+    key = password
+    f = Fernet(key)
+    token = f.encrypt(f"{text}".encode())
+    return token
+    
 def hide_text(source_image_path, text, password, output_image_path):
     # Encrypt the text
     encrypted_text = encrypt_text(text, password)
@@ -54,12 +52,12 @@ def hide_text(source_image_path, text, password, output_image_path):
 
     # Save the resulting image
     source_image.save(output_image_path)
-    print("Text hiding complete.")
+    print("Text hiding completed.")
 
 source_image_path = 'D:\_CNS\image2.png'
 output_image_path = 'D:\_CNS\output.png'
-password = 'secret_password'
-text = 'Today Mass Bunk'
+password = 'aubTy1HQbRRurbytmh_NJE2DV3QaNSh8A-ju4p3ZJCY='
+text = 'Tommorrow Mass Bunk guys'
 
 hide_text(source_image_path, text, password, output_image_path)
 
